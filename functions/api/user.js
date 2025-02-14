@@ -1,10 +1,7 @@
 export async function onRequest(context) {
-  // 開発環境の場合はテストメールアドレスを使用
-  const isDev = context.env.NODE_ENV === "development" ||
-    !context.env.ENVIRONMENT;
-  const email = isDev
-    ? "test@example.com"
-    : context.request.headers.get("Cf-Access-Authenticated-User-Email");
+  const email = context.request.headers.get(
+    "Cf-Access-Authenticated-User-Email",
+  );
 
   if (!email) {
     return new Response(
