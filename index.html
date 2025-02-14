@@ -2,11 +2,34 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <title>Secured Cloudflare Pages</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cloudflare Access Demo</title>
   </head>
   <body>
-    <h1>Cloudflare Pages + Zero Trust Sample</h1>
-    <p>これはCloudflare Zero Trustで保護されたページのサンプルです。</p>
-    <a href="about.html">Aboutページへ</a>
+    <h1>Cloudflare Access Demo</h1>
+    <div id="userInfo">ログイン情報を取得中...</div>
+
+    <script>
+      async function fetchUserInfo() {
+        try {
+          const response = await fetch("/api/user");
+          const data = await response.json();
+          if (data.email) {
+            document.getElementById(
+              "userInfo"
+            ).textContent = `ログイン中のユーザー: ${data.email}`;
+          } else {
+            document.getElementById("userInfo").textContent =
+              "ユーザー情報を取得できませんでした";
+          }
+        } catch (error) {
+          document.getElementById("userInfo").textContent =
+            "エラーが発生しました";
+          console.error("Error:", error);
+        }
+      }
+
+      fetchUserInfo();
+    </script>
   </body>
 </html>
